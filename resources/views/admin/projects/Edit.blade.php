@@ -3,7 +3,6 @@
 @section('content')
 <!-- Main content -->
 <!-- <projects></projects> -->
-
 <section class="content">
     <div class="row">
     <div class="col-md-12">
