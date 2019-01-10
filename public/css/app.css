@@ -19566,3 +19566,7 @@ a.text-dark:focus {
   width: 500px;
 }
 
+form.delete_form {
+  display: inline-block;
+}
+

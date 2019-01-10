@@ -6,13 +6,12 @@
         <div class="row">
             <div class="col-md-12">
             @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-                <ul style="margin:0; list-style:none; padding:0;">
-                    @foreach($errors->all() as $error)            
-                    <li>{{ $error }}</li>            
-                    @endforeach
-                </ul>
-            </div>
+            <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>    
+            @foreach($errors->all() as $error)            
+                <div>{{ $error }}</div>            
+            @endforeach
+            </div>             
             @endif
             <div class="box box-primary">
             
@@ -20,12 +19,12 @@
             <div class="box-body">
                 @csrf
                 <!-- text input -->
-                <div class="form-group">
+                <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                     <label>Project Title</label>
                     <input type="text" name="title" class="form-control" placeholder="Project Name">
                 </div>
                 <!-- textarea -->
-                <div class="form-group">
+                <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                     <label>Project Description</label>
                     <textarea name="description" class="form-control" rows="4" placeholder="Project Description"></textarea>
                 </div>

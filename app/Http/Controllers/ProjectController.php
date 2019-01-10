@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use App\project;
 
@@ -52,7 +52,7 @@ class ProjectController extends Controller
             'description' => $request->description, 
             'created_by' =>  $user->id,          
         ]);
-        return redirect('/projects/');
+        return redirect('/projects')->with('status', 'Project save successfully!');
     }
 
     /**
@@ -72,9 +72,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(project $project)
     {
-        $project = project::find($id);
+        //$project = project::findOrFail($id);
         return view('admin.projects.Edit', compact('project'));
     }
 
@@ -85,9 +85,21 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, project $project )
     {
-        //
+        $request->validate([
+            'title' => 'required',            
+            'description' => 'required',            
+        ]);
+        $authors = $request->authors;
+        $authors = json_encode($authors);      
+       // $project = project::findOrFail($id);
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->authors = $authors;
+
+        $project->save();
+        return redirect('/projects')->with('status', 'Project updated!');
     }
 
     /**
@@ -96,8 +108,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(project $project)
     {
-        //
+        $project->delete();
+        return redirect('/projects');
     }
 }
